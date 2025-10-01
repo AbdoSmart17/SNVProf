@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🗓️ التدرج السنوي للتعلمات</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="tabs">
+            <a href="index.html" class="tab-link">الرئيسية</a>
+            <a href="com.html" class="tab-link">مؤشرات الكفاءة</a>
+            <a href="monthly-plan.html" class="tab-link active">التدرج السنوي</a>
+            <a href="teacher-tasks.html" class="tab-link">مهام الأستاذ</a>
+            <a href="note.html" class="tab-link">إدارة النقاط</a>
+        </nav>
+        <h1> 🗓️ إنشاءالتدرج السنوي للتعلمات</h1>
+        
+        <div class="input-interface">
+            <h3>بيانات التدرج السنوي للتعلمات </h3>
+            <div class="basic-inputs">
+                <div class="input-group">
+                    <label for="institution-name">اسم المؤسسة:</label>
+                    <input type="text" id="institution-name" placeholder="اسم المؤسسة التعليمية">
+                </div>
+                <div class="input-group">
+                    <label for="teacher-name">اسم الأستاذ:</label>
+                    <input type="text" id="teacher-name" placeholder="اسم الأستاذ">
+                </div>
+                <div class="input-group">
+                    <label for="start-date">تاريخ بداية الموسم الدراسي:</label>
+                    <input type="date" id="start-date">
+                </div>
+                <div class="input-group">
+                    <label for="end-date">تاريخ نهاية الموسم الدراسي:</label>
+                    <input type="date" id="end-date">
+                </div>
+                <div class="input-group">
+                    <label for="level-select">اختر المستوى:</label>
+                    <select id="level-select">
+                        <option value="">-- اختر مستوى --</option>
+                    </select>
+                </div>
+                <div class="input-group" id="pattern-select-group" style="display: none;">
+                    <label for="teaching-pattern">نمط التوزيع:</label>
+                    <select id="teaching-pattern">
+                        <option value="continuous">النمط المستمر للميدانين </option>
+                        <option value="alternating">النمط المتناوب للميدانين</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="sessions-per-week">عدد الحصص في الأسبوع:</label>
+                    <input type="number" id="sessions-per-week" value="2" min="1">
+                </div>
+                <div class="input-group">
+                    <label class="checkbox-label" for="include-remaining-days">
+                        <input type="checkbox" id="include-remaining-days" checked>
+                        احتساب الأيام المتبقية كأسبوع إضافي
+                    </label>
+                </div>
+            </div>
+            
+            <div class="holiday-exam-manager">
+                <h4>إدارة العطل والامتحانات</h4>
+                <div class="holiday-exam-controls">
+                    <div class="input-group">
+                        <label for="period-name">اسم الفترة:</label>
+                        <input type="text" id="period-name" placeholder="مثال: عطلة الشتاء">
+                    </div>
+                    <div class="input-group">
+                        <label for="period-start">تاريخ البداية:</label>
+                        <input type="date" id="period-start">
+                    </div>
+                    <div class="input-group">
+                        <label for="period-end">تاريخ النهاية:</label>
+                        <input type="date" id="period-end">
+                    </div>
+                    <div class="input-group">
+                        <label for="period-type">نوع الفترة:</label>
+                        <select id="period-type">
+                            <option value="holiday">عطلة</option>
+                            <option value="exam">امتحانات</option>
+                        </select>
+                    </div>
+                    <button id="add-period">إضافة الفترة</button>
+                </div>
+                <div class="periods-list">
+                    <h5>فترات العطل:</h5>
+                    <div id="holidays-list"></div>
+                    <h5>فترات الامتحانات:</h5>
+                    <div id="exams-list"></div>
+                </div>
+            </div>
+            
+            <button id="generate-table-btn" class="generate-btn">إنشاء الجدول</button>
+        </div>
+        <div id="calendar-container">
+            </div>
+    </div>
+    <script src="data.js"></script>
+    <script src="monthly-plan-script.js"></script>
+</body>
+</html>

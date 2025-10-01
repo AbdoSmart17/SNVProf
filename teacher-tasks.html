@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> 👨‍🏫مهام الأستاذ ✅</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- إضافة مكتبة SheetJS لمعالجة ملفات Excel -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #11516e;
+            --secondary-color: #2ecc71;
+            --accent-color: #e74c3c;
+            --light-bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
+            --border-light: #e1e8ed;
+        }
+
+        /* تنسيقات مخصصة للصفحة - تكملة لملف style.css */
+
+        .section-title {
+            color: var(--text-dark);
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--primary-color);
+            font-size: 1.4em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::before {
+            content: "📋";
+            font-size: 1.2em;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group label {
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 0.95em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .input-group select, 
+        .input-group input, 
+        .input-group textarea {
+            padding: 12px 15px;
+            border: 2px solid var(--border-light);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: var(--light-bg);
+        }
+
+        .input-group select:focus, 
+        .input-group input:focus, 
+        .input-group textarea:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+            outline: none;
+        }
+
+        .input-group select:disabled, 
+        .input-group input:disabled {
+            background-color: #f8f9fa;
+            color: #6c757d;
+            cursor: not-allowed;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), #2980b9);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn-primary:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* تنسيق جدول التوقيت الأسبوعي */
+        .weekly-schedule-container {
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+
+        .weekly-schedule {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            min-width: 600px;
+        }
+
+        .weekly-schedule th {
+            background: var(--primary-color);
+            color: white;
+            padding: 12px 8px;
+            text-align: center;
+            font-weight: 600;
+            border: 1px solid var(--border-light);
+            font-size: 0.9em;
+        }
+
+        .weekly-schedule td {
+            border: 1px solid var(--border-light);
+            padding: 8px;
+            vertical-align: top;
+            min-height: 80px;
+            background: var(--light-bg);
+        }
+
+        .schedule-day-cell {
+            min-height: 100px;
+        }
+
+        .schedule-item-card {
+            background: white;
+            padding: 8px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            border-left: 3px solid var(--secondary-color);
+            transition: all 0.3s ease;
+            font-size: 0.8em;
+        }
+
+        .schedule-item-card:hover {
+            background: #e8f4fd;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .schedule-item-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .schedule-class-info {
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 0.85em;
+            margin-bottom: 4px;
+        }
+
+        .schedule-time-info {
+            color: var(--secondary-color);
+            font-size: 0.8em;
+            margin-bottom: 4px;
+        }
+
+        .schedule-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 5px;
+        }
+
+        .schedule-delete-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 0.7em;
+            transition: all 0.3s ease;
+        }
+
+        .schedule-delete-btn:hover {
+            background: #c0392b;
+            transform: scale(1.05);
+        }
+
+        .no-schedule {
+            text-align: center;
+            color: var(--text-light);
+            font-style: italic;
+            padding: 15px;
+        }
+
+        /* تحسينات للمهام - تكملة لملف style.css */
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            gap: 15px;
+        }
+
+        .task-title h4 {
+            margin: 0 0 5px 0;
+            color: var(--text-dark);
+            font-size: 1.1em;
+        }
+
+        .task-date {
+            color: var(--text-light);
+            font-size: 0.9em;
+            background: var(--light-bg);
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+
+        .task-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-complete, .btn-delete {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-complete {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-complete:hover {
+            background: #27ae60;
+        }
+
+        .btn-delete {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #c0392b;
+        }
+
+        .task-details {
+            color: var(--text-dark);
+        }
+
+        .task-meta {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .task-meta span {
+            background: #e8f4fd;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .task-content p {
+            margin: 8px 0;
+            line-height: 1.5;
+            padding: 8px 0;
+            border-bottom: 1px dashed var(--border-light);
+        }
+
+        .task-content p:last-child {
+            border-bottom: none;
+        }
+
+        /* حالات خاصة */
+        .no-tasks {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-light);
+            font-style: italic;
+            background: var(--light-bg);
+            border-radius: 10px;
+        }
+
+        /* تحسينات للشاشات الصغيرة */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .tasks-container {
+                gap: 15px;
+                margin-top: 15px;
+            }
+            
+            .schedule-section, .tasks-section {
+                padding: 15px;
+                border-radius: 12px;
+            }
+            
+            .section-title {
+                font-size: 1.2em;
+                margin-bottom: 15px;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                margin-bottom: 20px;
+            }
+            
+            .input-group select, 
+            .input-group input, 
+            .input-group textarea {
+                padding: 10px 12px;
+                font-size: 16px;
+            }
+            
+            .btn-primary {
+                padding: 12px 20px;
+                font-size: 16px;
+            }
+            
+            /* تحسينات لجدول التوقيت الأسبوعي */
+            .weekly-schedule-container {
+                margin-top: 15px;
+                border: 1px solid var(--border-light);
+                border-radius: 10px;
+                overflow: hidden;
+            }
+            
+            .weekly-schedule {
+                min-width: 550px;
+            }
+            
+            .weekly-schedule th {
+                padding: 10px 6px;
+                font-size: 0.8em;
+            }
+            
+            .weekly-schedule td {
+                padding: 6px 4px;
+            }
+            
+            .schedule-item-card {
+                padding: 6px;
+                margin-bottom: 6px;
+                font-size: 0.75em;
+            }
+            
+            /* تحسينات لقائمة المهام */
+            .task-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+            
+            .task-actions {
+                justify-content: flex-end;
+            }
+            
+            .task-meta {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .task-item {
+                padding: 15px;
+            }
+            
+            /* تحسينات لتصفية المهام */
+            .tasks-filter {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 8px;
+            }
+            
+            .tasks-filter button {
+                flex: none;
+                width: 100%;
+                margin: 0;
+            }
+            
+            .tasks-filter .btn-primary {
+                margin-right: 0;
+                margin-top: 0;
+                width: 100%;
+            }
+            
+            /* تحسينات للتنقل */
+            .tabs {
+                flex-wrap: wrap;
+                gap: 5px;
+            }
+            
+            .tab-link {
+                flex: 1;
+                min-width: calc(50% - 5px);
+                text-align: center;
+                padding: 10px 5px;
+                font-size: 0.9em;
+            }
+            
+            h1 {
+                font-size: 1.5em;
+                margin: 15px 0;
+            }
+        }
+
+        /* تحسينات إضافية للشاشات الصغيرة جداً */
+        @media (max-width: 480px) {
+            .schedule-section, .tasks-section {
+                padding: 12px;
+            }
+            
+            .section-title {
+                font-size: 1.1em;
+            }
+            
+            .weekly-schedule {
+                min-width: 500px;
+            }
+            
+            .weekly-schedule th {
+                font-size: 0.75em;
+                padding: 8px 4px;
+            }
+            
+            .weekly-schedule td {
+                padding: 4px 2px;
+            }
+            
+            .schedule-item-card {
+                font-size: 0.7em;
+                padding: 4px;
+            }
+            
+            .task-item {
+                padding: 12px;
+            }
+            
+            .task-title h4 {
+                font-size: 1em;
+            }
+            
+            .btn-complete, .btn-delete {
+                padding: 6px 10px;
+                font-size: 12px;
+            }
+            
+            .tab-link {
+                font-size: 0.8em;
+                padding: 8px 4px;
+            }
+        }
+
+        /* إشعارات */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            max-width: 300px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success { background: var(--secondary-color); }
+        .notification.error { background: var(--accent-color); }
+        .notification.info { background: var(--primary-color); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="tabs">
+            <a href="index.html" class="tab-link">الرئيسية</a>
+            <a href="com.html" class="tab-link">مؤشرات الكفاءة</a>
+            <a href="monthly-plan.html" class="tab-link">التدرج السنوي </a>
+            <a href="teacher-tasks.html" class="tab-link active">مهام الأستاذ</a>
+            <a href="note.html" class="tab-link">إدارة النقاط</a>
+        </nav>
+        <h1>👨‍🏫 مهام الأستاذ</h1>
+        
+        <div class="tasks-container">
+            <div class="schedule-section">
+                <h2 class="section-title">إضافة توقيت أسبوعي</h2>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label for="day-select">📅 اليوم:</label>
+                        <select id="day-select">
+                            <option value="">-- اختر يوماً --</option>
+                            <option value="السبت">السبت</option>
+                            <option value="الأحد">الأحد</option>
+                            <option value="الإثنين">الإثنين</option>
+                            <option value="الثلاثاء">الثلاثاء</option>
+                            <option value="الأربعاء">الأربعاء</option>
+                            <option value="الخميس">الخميس</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="schedule-level">🎓 المستوى:</label>
+                        <select id="schedule-level">
+                            <option value="">-- اختر مستوى --</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="schedule-class">👥 القسم:</label>
+                        <select id="schedule-class">
+                            <option value="">-- اختر قسماً --</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="start-time">⏰ بداية الحصة:</label>
+                        <input type="time" id="start-time">
+                    </div>
+                    <div class="input-group">
+                        <label for="end-time">⏱️ نهاية الحصة:</label>
+                        <input type="time" id="end-time">
+                    </div>
+                </div>
+                <button id="add-schedule-btn" class="btn-primary">➕ إضافة الحصة</button>
+                
+                <div id="schedule-list" style="margin-top: 25px;">
+                    <h3 style="color: var(--text-dark); border-bottom: 1px solid var(--border-light); padding-bottom: 10px;">
+                        📋 توقيتي الأسبوعي
+                    </h3>
+                    <!-- استبدلنا القائمة بجدول أسبوعي -->
+                    <div class="weekly-schedule-container">
+                        <table class="weekly-schedule">
+                            <thead>
+                                <tr>
+                                    <th>السبت</th>
+                                    <th>الأحد</th>
+                                    <th>الإثنين</th>
+                                    <th>الثلاثاء</th>
+                                    <th>الأربعاء</th>
+                                    <th>الخميس</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="schedule-day-cell" id="saturday-cell"></td>
+                                    <td class="schedule-day-cell" id="sunday-cell"></td>
+                                    <td class="schedule-day-cell" id="monday-cell"></td>
+                                    <td class="schedule-day-cell" id="tuesday-cell"></td>
+                                    <td class="schedule-day-cell" id="wednesday-cell"></td>
+                                    <td class="schedule-day-cell" id="thursday-cell"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tasks-section">
+                <h2 class="section-title">إضافة مهمة جديدة</h2>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label for="task-date">📅 تاريخ المهمة:</label>
+                        <input type="date" id="task-date">
+                    </div>
+                    <div class="input-group">
+                        <label for="task-schedule">🕒 الحصة المبرمجة:</label>
+                        <select id="task-schedule" disabled>
+                            <option value="">-- اختر تاريخاً أولاً --</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="task-time">⏱️ وقت الحصة:</label>
+                        <input type="text" id="task-time" readonly>
+                    </div>
+                    <div class="input-group">
+                        <label for="task-field">📚 الميدان:</label>
+                        <select id="task-field" disabled>
+                            <option value="">-- اختر ميدان --</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="task-module">📖 المقطع:</label>
+                        <select id="task-module" disabled>
+                            <option value="">-- اختر مقطع --</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="task-activity">🎯 النشاط:</label>
+                        <select id="task-activity" disabled>
+                            <option value="">-- اختر نشاط --</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="task-notes">💬 الملاحظات:</label>
+                        <textarea id="task-notes" rows="3" placeholder="أضف ملاحظات إضافية..."></textarea>
+                    </div>
+                </div>
+                <button id="add-task-btn" class="btn-primary" disabled>➕ إضافة المهمة</button>
+            </div>
+
+            <div class="tasks-section">
+                <h2 class="section-title">قائمة المهام</h2>
+                <div class="tasks-filter">
+                    <button id="filter-all" class="active">الكل 📋</button>
+                    <button id="filter-incomplete">غير المكتملة ⏳</button>
+                    <button id="filter-completed">المكتملة ✅</button>
+                    <button id="export-excel-btn" class="btn-primary">📊 تصدير إلى Excel</button>
+                    <button id="import-excel-btn" class="btn-primary">📥 استيراد من Excel</button>
+                    <input type="file" id="import-file-input" accept=".xlsx, .xls" style="display: none;">
+                </div>
+                <div id="tasks-list-container">
+                    <ul id="tasks-ul"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- تحميل البيانات أولاً -->
+    <script src="data.js"></script>
+    <script src="teacher-tasks-script.js"></script>
+</body>
+</html>

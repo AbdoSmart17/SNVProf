@@ -1,0 +1,682 @@
+:root {
+    --primary-color: #11516e;
+    --secondary-color: #2ecc71;
+    --accent-color: #e74c3c;
+    --light-bg: #f0f4f8;
+    --card-bg: #ffffff;
+    --text-dark: #2c3e50;
+    --text-light: #7f8c8d;
+    --border-light: #e1e8ed;
+    --gradient-start: #e9f1f8;
+    --gradient-end: #dceaf7;
+}
+
+body {
+    font-family: 'Cairo','Arial', sans-serif;
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    color: var(--text-dark);
+    line-height: 1.6;
+    direction: rtl;
+    text-align: right;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+h1, h2, h3, h4, h5 {
+    color: var(--primary-color);
+    margin-top: 0;
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    background-color: var(--primary-color);
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.tabs .tab-link {
+    padding: 12px 20px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.tabs .tab-link.active {
+    background-color: var(--secondary-color);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transform: translateY(-2px);
+}
+
+.tabs .tab-link:hover:not(.active) {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.home-section {
+    background-color: var(--card-bg);
+    padding: 25px;
+    border-radius: 15px;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    margin-bottom: 25px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.home-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.home-section h2 {
+    border-bottom: 2px solid var(--secondary-color);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.nav-links {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* عنصرين في كل سطر */
+    /*display: flex;
+    flex-wrap: wrap;*/
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.nav-links a {
+    flex: 1;
+    min-width: 250px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+    background-color: var(--light-bg);
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--text-dark);
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+.nav-links a:hover {
+    background-color: var(--border-light);
+    transform: translateY(-3px);
+}
+
+.nav-links a .icon {
+    font-size: 2rem;
+}
+
+/* Common Styles */
+.controls {
+    background-color: var(--card-bg);
+    padding: 25px;
+    border-radius: 15px;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    margin-bottom: 25px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.controls:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.select-group, .input-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.input-group label::before {
+    font-size: 1rem;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+label {
+    font-weight: bold;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+}
+
+input[type="text"], input[type="date"], input[type="number"], select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    background-color: var(--light-bg);
+    color: var(--text-dark);
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input[type="text"]:focus, input[type="date"]:focus, input[type="number"]:focus, select:focus, textarea:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+button {
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+#competencies-display {
+    background-color: var(--card-bg);
+    padding: 25px;
+    border-radius: 15px;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+#competencies-display h2 {
+    margin-bottom: 15px;
+}
+
+#competencies-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+#competencies-list li {
+    background-color: var(--light-bg);
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border-right: 5px solid var(--secondary-color);
+    transition: transform 0.2s;
+}
+
+#competencies-list li:hover {
+    transform: translateX(-5px);
+}
+
+.display-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#print-activity-btn {
+    padding: 8px 15px;
+    font-size: 0.9rem;
+}
+
+/* Search Results */
+.search-container {
+    display: flex;
+    flex-wrap: nowrap;         /* منع العناصر من النزول لسطر جديد */
+    gap: 10px;                  /* مسافة بين الحقل والزر */
+    max-width: 600px;
+    width: 100%;
+    margin-bottom: 20px;
+    align-items: center;       /* محاذاة عمودية للمنتصف */
+}
+
+#search-input {
+    flex-grow: 1;              /* يجعل حقل الإدخال يأخذ المساحة المتاحة */
+    padding: 12px;
+    box-sizing: border-box;
+    min-width: 0;              /* مهم لمنع مشاكل في التقلص داخل flex */
+}
+
+#search-button {
+    padding: 12px 20px;
+    white-space: nowrap;       /* منع الزر من النزول لسطر جديد */
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+#search-results-info {
+    font-style: italic;
+    color: var(--text-light);
+}
+
+/* Monthly Plan Styles */
+.input-interface {
+    background-color: var(--card-bg);
+    padding: 25px;
+    border-radius: 15px;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    margin-bottom: 25px;
+}
+
+.input-interface h3 {
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.input-interface .basic-inputs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.input-interface .holiday-exam-controls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    align-items: end;
+}
+
+.holiday-exam-manager {
+    background-color: var(--light-bg);
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px dashed var(--border-light);
+    margin-bottom: 20px;
+}
+
+.holiday-exam-manager h4 {
+    color: var(--accent-color);
+    border-bottom: 1px solid var(--accent-color);
+    padding-bottom: 5px;
+}
+
+.periods-list {
+    margin-top: 20px;
+}
+
+.periods-list h5 {
+    margin-top: 15px;
+    margin-bottom: 10px;
+    color: var(--text-dark);
+}
+
+.period-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border-light);
+    margin-bottom: 8px;
+}
+
+.period-item button {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    background-color: var(--accent-color);
+}
+
+.generate-btn {
+    width: 100%;
+    margin-top: 20px;
+}
+
+/* Updated Table Styles */
+.monthly-plan-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.monthly-plan-table th, .monthly-plan-table td {
+    border: 1px solid var(--border-light);
+    padding: 15px;
+    text-align: center;
+    vertical-align: top;
+}
+
+.monthly-plan-table th {
+    background-color: var(--primary-color);
+    color: #fff;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.monthly-plan-table tbody tr:nth-child(even) {
+    background-color: var(--light-bg);
+}
+
+.monthly-plan-table tbody tr:hover {
+    background-color: var(--border-light);
+}
+
+.month-cell {
+    background-color: var(--secondary-color);
+    color: #fff;
+    font-weight: bold;
+}
+
+.field-cell, .module-cell {
+    text-align: right;
+    font-size: 0.9em;
+    padding: 10px;
+}
+
+.activities-cell {
+    text-align: right;
+    line-height: 1.8;
+}
+
+.status-holiday, .status-exam {
+    background-color: #fcebeb;
+    color: var(--accent-color);
+}
+
+.status-study {
+    background-color: #e6f7ff;
+    color: #007bb6;
+}
+
+.table-summary {
+    margin-top: 25px;
+    padding: 20px;
+    border: 1px dashed var(--border-light);
+    border-radius: 10px;
+    background-color: var(--light-bg);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.table-summary p {
+    margin: 0;
+    flex: 1;
+    min-width: 200px;
+    font-size: 14px;
+    color: var(--text-dark);
+}
+
+.table-summary p strong {
+    color: var(--primary-color);
+}
+
+/* Tasks Page Styles */
+.tasks-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.schedule-section, .tasks-section {
+    padding: 25px;
+    background: var(--card-bg);
+    border-radius: 15px;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.schedule-section:hover, .tasks-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.schedule-section h2, .tasks-section h2 {
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.tasks-list-container {
+    max-height: 600px;
+    overflow-y: auto;
+    padding-right: 15px; /* for scrollbar */
+}
+
+#tasks-ul {
+    list-style: none;
+    padding: 0;
+}
+
+.task-item {
+    background-color: var(--light-bg);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    border: 1px solid var(--border-light);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: transform 0.2s;
+}
+
+.task-item:hover {
+    transform: translateX(-5px);
+}
+
+.task-item.completed {
+    background-color: #e9ffe9;
+    text-decoration: line-through;
+    color: #888;
+}
+
+.task-item .actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.task-item .actions button {
+    padding: 5px 10px;
+    font-size: 14px;
+}
+
+.task-item .actions .complete-btn {
+    background-color: #28a745;
+}
+
+.task-item .actions .delete-btn {
+    background-color: #dc3545;
+}
+
+.tasks-filter {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.tasks-filter button {
+    background-color: #eee;
+    color: #333;
+}
+
+.tasks-filter button.active {
+    background-color: #007bff;
+    color: #fff;
+}
+
+/* تنسيقات الطباعة */
+.printable-content {
+    direction: rtl;
+    text-align: right;
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: #000;
+}
+
+.activity-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.activity-table td {
+    padding: 10px;
+    border: 1px solid #000;
+    vertical-align: top;
+}
+
+.activity-table .right-column {
+    width: 30%;
+    background-color: #f2f2f2;
+    padding: 15px;
+}
+
+.activity-table .left-column {
+    width: 70%;
+    padding: 15px;
+}
+
+.activity-table strong {
+    color: var(--primary-color);
+}
+
+.activity-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: var(--text-dark);
+}
+
+.competencies-list {
+    list-style-type: disc;
+    padding-right: 20px;
+}
+
+.competencies-list li {
+    margin-bottom: 5px;
+}
+
+/* Print styles for Monthly plan */
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Arial', sans-serif;
+    }
+    .container, .tabs, .input-interface, .generate-btn, .print-btn, .controls, .search-container, .tasks-container {
+        display: none !important;
+    }
+    .printable-content {
+        display: block !important;
+        width: 100%;
+        margin: auto;
+        padding: 1cm;
+        box-shadow: none;
+    }
+    .print-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2cm;
+        border-bottom: 2px solid #000;
+        padding-bottom: 15px;
+    }
+    .header-info, .header-title {
+        text-align: right;
+    }
+    .header-info p, .header-title p {
+        margin: 0;
+    }
+    .monthly-plan-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 10pt;
+        table-layout: fixed;
+    }
+    .monthly-plan-table th, .monthly-plan-table td {
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: center;
+        vertical-align: middle;
+    }
+    .monthly-plan-table th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+        color: #333;
+    }
+    .month-cell {
+        font-size: 1.2em;
+        font-weight: bold;
+        background-color: #e0eaf2;
+    }
+    .activities-cell {
+        text-align: right;
+    }
+    .activity-item {
+        display: block;
+        margin-bottom: 5px;
+        border-bottom: 1px dotted #ccc;
+        padding-bottom: 3px;
+    }
+    .activity-item:last-child {
+        border-bottom: none;
+    }
+    .table-summary {
+        margin-top: 30px;
+        padding: 15px;
+        border: 1px dashed #ccc;
+        background-color: #f9f9f9;
+    }
+}
+/* تنسيقات إضافية لقائمة نمط التوزيع */
+#pattern-select-group {
+    display: none; /* مخفية بشكل افتراضي */
+}
+@media (max-width: 600px) {
+  .nav-links {
+    grid-template-columns: 1fr; /* عنصر واحد في كل سطر */
+  }
+}
+@media (max-width: 768px) {
+  .tabs {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 10px;
+  }
+
+  .tabs .tab-link {
+    flex: 1 1 calc(50% - 10px); /* اثنين في كل صف تقريبا */
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tabs .tab-link {
+    flex: 1 1 100%; /* كل تبويب ياخذ عرض كامل */
+  }
+}

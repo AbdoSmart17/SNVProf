@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📈 إدارة النقاط</title>
+    <meta name="description" content="نظام شامل لحساب نقاط ومعدلات التلاميذ و وضع التقديرات من خلال استيراد و تصدير مختلف ملفات Exel ">
+    <meta name="robots" content="index, follow">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="note.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <div class="container">
+        <nav class="tabs">
+            <a href="index.html" class="tab-link">الرئيسية</a>
+            <a href="com.html" class="tab-link">مؤشرات الكفاءة</a>
+            <a href="monthly-plan.html" class="tab-link">التدرج السنوي </a>
+            <a href="teacher-tasks.html" class="tab-link">مهام الأستاذ</a>
+            <a href="note.html" class="tab-link active">إدارة النقاط</a>
+        </nav>
+        
+        <div class="note-container">
+            <div class="note-header">
+                <h1>📈 تطبيق إدارة نقاط التلاميذ</h1>
+                <p>نظام شامل لإدارة وحساب نقاط ومعدلات التلاميذ</p>
+            </div>
+
+            <div class="note-nav-tabs">
+                <button class="note-nav-tab active" onclick="showTab('import')">استيراد البيانات</button>
+                <button class="note-nav-tab" onclick="showTab('grades')">إدخال النقاط</button>
+                <button class="note-nav-tab" onclick="showTab('statistics')">الإحصائيات</button>
+                <button class="note-nav-tab" onclick="showTab('settings')">الإعدادات</button>
+            </div>
+
+            <div id="import-tab" class="note-tab-content active">
+                <div class="upload-section">
+                    <h3>استيراد ملف Excel</h3>
+                    <p>اختر ملف Excel يحتوي على قوائم التلاميذ او ملف الرقمنة</p>
+                    <input type="file" id="fileInput" class="file-input" accept=".xlsx,.xls">
+                    <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                        📁 اختيار ملف Excel
+                    </button>
+                </div>
+
+                <div id="sheetSelector" class="sheet-selector" style="display: none;">
+                    <label for="sheetSelect">اختر الصفحة (القسم):</label>
+                    <select id="sheetSelect">
+                        <option value="">-- اختر القسم --</option>
+                    </select>
+                </div>
+
+                <div id="previewSection" style="display: none;">
+                    <div class="selection-info">
+                        <h4 style="color: #0056b3; margin-bottom: 10px;">إرشادات التحديد:</h4>
+                        <ul style="color: #495057; margin-right: 20px;">
+                            <li><strong>التحديد بالسحب:</strong> اضغط واسحب الماوس لتحديد مجموعة من الصفوف</li>
+                            <li><strong>التحديد المتعدد:</strong> اضغط Ctrl + النقر لتحديد صفوف متفرقة</li>
+                            <li><strong>التحديد المدى:</strong> اضغط Shift + النقر لتحديد مدى من الصفوف</li>
+                            <li><strong>هام:</strong> تم التعرف تلقائياً على صفوف التلاميذ. يمكنك تحديد الصفوف التي تحتوي على بيانات التلاميذ.</li>
+                        </ul>
+                        
+                        <div id="columnInfo" class="column-info" style="display: none;">
+                            <!-- سيتم عرض معلومات الأعمدة هنا -->
+                        </div>
+
+                        <div id="studentRowsInfo" class="student-rows-info" style="display: none;">
+                            <!-- سيتم عرض معلومات صفوف التلاميذ هنا -->
+                        </div>
+                        
+                        <div class="bulk-selection">
+                            <button class="bulk-btn" id="selectAllBtn">تحديد الكل</button>
+                            <button class="bulk-btn" id="deselectAllBtn">إلغاء التحديد</button>
+                            <button class="bulk-btn" id="selectStudentsBtn">تحديد التلاميذ فقط</button>
+                            <button class="bulk-btn" id="invertSelectionBtn">عكس التحديد</button>
+                        </div>
+                    </div>
+
+                    <div class="note-controls">
+                        <button class="note-btn note-btn-primary" id="confirmSelectionBtn">تأكيد التحديد</button>
+                        <button class="note-btn note-btn-warning" id="clearSelectionBtn">مسح التحديد</button>
+                        <span id="selectionCount" style="font-weight: bold; color: #007bff; margin-right: 15px;">لم يتم التحديد</span>
+                        <span id="totalRowsCount" style="font-weight: bold; color: #6c757d; margin-right: 15px;"></span>
+                    </div>
+
+                    <div class="preview-table">
+                        <table id="previewTable" class="note-table">
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="grades-tab" class="note-tab-content">
+                <div class="note-controls">
+                    <input type="text" class="search-box" id="searchBox" placeholder="البحث عن تلميذ...">
+                    <button class="note-btn note-btn-primary" onclick="sortStudents('name')">ترتيب حسب الاسم</button>
+                    <button class="note-btn note-btn-primary" onclick="sortStudents('average')">ترتيب حسب المعدل</button>
+                    <button class="note-btn note-btn-danger" id="resetGradesBtn">إعادة تعيين النقاط</button>
+                    <button class="export-btn" id="exportBtn">تصدير إلى Excel</button>
+                </div>
+
+                <div class="grade-section">
+                    <div class="grade-controls">
+                        <div class="grade-type-selector">
+                            <label>نوع النقطة:</label>
+                            <select id="gradeType">
+                                <option value="continuous">التقويم المستمر</option>
+                                <option value="test">الفرض</option>
+                                <option value="exam">الاختبار</option>
+                            </select>
+                        </div>
+                        <button class="note-btn note-btn-primary" id="applyGradeToAll">تطبيق على الجميع</button>
+                    </div>
+
+                    <div id="continuousGrades" class="continuous-assessment">
+                        <div class="assessment-item">
+                            <label>الكراس</label>
+                            <input type="number" class="grade-input" id="notebook" min="0" max="20" placeholder="0-20">
+                        </div>
+                        <div class="assessment-item">
+                            <label>الواجبات</label>
+                            <input type="number" class="grade-input" id="homework" min="0" max="20" placeholder="0-20">
+                        </div>
+                        <div class="assessment-item">
+                            <label>السلوك</label>
+                            <input type="number" class="grade-input" id="behavior" min="0" max="20" placeholder="0-20">
+                        </div>
+                        <div class="assessment-item">
+                            <label>المشاركة</label>
+                            <input type="number" class="grade-input" id="participation" min="0" max="20" placeholder="0-20">
+                        </div>
+                    </div>
+
+                    <div id="singleGrade" class="continuous-assessment" style="display: none;">
+                        <div class="assessment-item">
+                            <label id="singleGradeLabel">النقطة</label>
+                            <input type="number" class="grade-input" id="singleGradeInput" min="0" max="20" placeholder="0-20">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="preview-table">
+                    <table id="gradesTable" class="note-table">
+                        <thead>
+                            <tr>
+                                <th>الاسم</th>
+                                <th>الكراس</th>
+                                <th>الواجبات</th>
+                                <th>السلوك</th>
+                                <th>المشاركة</th>
+                                <th>التقويم المستمر</th>
+                                <th>الفرض</th>
+                                <th>الاختبار</th>
+                                <th>المعدل</th>
+                                <th>التقدير</th>
+                            </tr>
+                        </thead>
+                        <tbody id="gradesTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="statistics-tab" class="note-tab-content">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>عدد التلاميذ</h3>
+                        <div class="stat-number" id="totalStudents">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>المعدل العام</h3>
+                        <div class="stat-number" id="overallAverage">0.00</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>أعلى معدل</h3>
+                        <div class="stat-number" id="highestGrade">0.00</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>أقل معدل</h3>
+                        <div class="stat-number" id="lowestGrade">0.00</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>الناجحون (≥10)</h3>
+                        <div class="stat-number" id="passedStudents">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>الراسبون</h3>
+                        <div class="stat-number" id="failedStudents">0</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <h3>توزيع التقديرات</h3>
+                    <div id="gradeDistribution"></div>
+                </div>
+            </div>
+
+            <div id="settings-tab" class="note-tab-content">
+                <div class="grade-settings">
+                    <h3>إعدادات التقديرات</h3>
+                    <p>يمكنك تعديل الحدود الدنيا والعبارات الخاصة بكل تقدير:</p>
+                    
+                    <table class="grade-settings-table">
+                        <thead>
+                            <tr>
+                                <th>التقدير</th>
+                                <th>الحد الأدنى</th>
+                                <th>العبارة</th>
+                            </tr>
+                        </thead>
+                        <tbody id="gradeSettingsBody">
+                        </tbody>
+                    </table>
+                    
+                    <div class="note-controls">
+                        <button class="note-btn note-btn-primary" id="saveSettingsBtn">حفظ الإعدادات</button>
+                        <button class="note-btn note-btn-warning" id="resetSettingsBtn">استعادة الإعدادات الافتراضية</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="developer-footer">
+                <p>تم التطوير بواسطة: <strong>بقة عبدالوهاب</strong> | 
+                   البريد الإلكتروني: <a href="mailto:abdo.bagua@yahoo.fr">abdo.bagua@yahoo.fr</a></p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="note.js"></script>
+</body>
+</html>

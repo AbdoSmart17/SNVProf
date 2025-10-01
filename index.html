@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>📝 إدارة مهام استاذ العلوم الطبيعية🔬</title>
+    <meta name="description" content="أدوات لدعم أساتذة العلوم الطبيعية بالمتوسط: مؤشرات كفاءة، تدرج سنوي، حساب المعدلات، وضع التقديرات، وإدارة المهام بسهولة">
+    <meta name="robots" content="index, follow">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="home.css"> <!-- ملف CSS الجديد للصفحة الرئيسية -->
+    <link rel="manifest" href="manifest.json">
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(reg => console.log('Service Worker: Registered'))
+                    .catch(err => console.log(`Service Worker: Error: ${err}`));
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="container home-container">
+        <nav class="tabs">
+            <a href="index.html" class="tab-link active">الرئيسية</a>
+            <a href="com.html" class="tab-link">مؤشرات الكفاءة</a>
+            <a href="monthly-plan.html" class="tab-link">التدرج السنوي </a>
+            <a href="teacher-tasks.html" class="tab-link">مهام الأستاذ</a>
+            <a href="note.html" class="tab-link">إدارة النقاط</a>
+        </nav>
+        
+        <div class="home-hero">
+            <div class="hero-content">
+                <h1>تطبيق إدارة مهام استاذ العلوم الطبيعية </h1>
+                <p>  أدوات شاملة لمساعدة اساتذة العلوم الطبيعية ، الموقع يوفر إمكانية البحث عن مؤشرات الكفاءة، إنشاء التدرج السنوي،حساب معدلات التلاميذ و وضع التقديرات و الاحصائيات، وإدارة المهام اليومية بسهولة.</p>
+            </div>
+            <div class="hero-image-container">
+                <img src="images/hero-image.png" alt="صورة توضيحية">
+            </div>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <a href="com.html">
+                 <img src="images/idea.png" alt="مؤشرات الكفاءة" class="feature-icon">
+                <h3>مؤشرات الكفاءة</h3></a>
+                <p>تصفح و ابحث عن جميع مؤشرات الكفاءة حسب المستويات والميادين مع طباعة نموذج مذكرة بسهولة تامة</p> 
+            </div>
+            
+            <div class="feature-card">
+                <a href="monthly-plan.html">
+                <img src="images/time.png" alt="التدرج السنوي" class="feature-icon">
+                <h3>التدرج السنوي</h3></a>
+                <p>إنشاء وتخصيص التدرج السنوي للتعلمات مع مراعاة العطل والامتحانات</p> 
+            </div>
+            
+            <div class="feature-card">
+                <a href="teacher-tasks.html">
+                <img src="images/task.png" alt="مهام الأستاذ" class="feature-icon">
+                <h3>مهام الأستاذ</h3></a>
+                <p>إدارة المهام اليومية والأسبوعية ومتابعة سير الدروس بشكل منظم مع حفظ و استيراد جميع البيانات </p> 
+            </div>
+            <div class="feature-card">
+                <a href="note.html">
+                <img src="images/note.png" alt="ادارة النقاط" class="feature-icon">
+                <h3> ادارة النقاط</h3></a>
+                <p>نظام شامل لإدارة النقاط و حساب معدلات التلاميذ مع وضع التقديرات و جميع الاحصائيات </p> 
+            </div>
+        </div>
+
+        <div class="quick-stats">
+            <div class="stat-card">
+                <span class="stat-number">4</span>
+                <span class="stat-label">مستويات تعليمية</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">50+</span>
+                <span class="stat-label">مقطع تعليمي</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">200+</span>
+                <span class="stat-label">نشاط تعليمي</span>
+            </div>
+        </div>
+
+        <div class="contact-section">
+            <h2>معلومات الاتصال والدعم</h2>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <strong>📧 البريد الإلكتروني</strong>
+                    <span><a href="mailto:abdo.bagua@yahoo.fr">abdo.bagua@yahoo.fr</a></span>
+                </div>
+                <div class="contact-item">
+                    <strong> 💻 معلومات المطور</strong>
+                    <span>تم التصميم والتطوير من طرف الاستاذ بقة عبدالوهاب</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="home-section">
+            <h2>الوصول السريع</h2>
+            <div class="nav-links">
+                <a href="com.html">
+                    <span class="icon">🎯</span> مؤشرات الكفاءة
+                </a>
+                <a href="monthly-plan.html">
+                    <span class="icon">🗓️</span>التدرج السنوي
+                </a>
+                <a href="teacher-tasks.html">
+                    <span class="icon">👨‍🏫</span> مهام الأستاذ
+                </a>
+                <a href="note.html">
+                    <span class="icon">📈</span> ادارة النقاط
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

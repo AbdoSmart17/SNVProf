@@ -1,0 +1,439 @@
+/* note.css - تنسيقات صفحة إدارة النقاط */
+:root {
+    --primary-color: #11516e;
+    --secondary-color: #2ecc71;
+    --accent-color: #e74c3c;
+    --light-bg: #f8f9fa;
+    --card-bg: #ffffff;
+    --text-dark: #2c3e50;
+    --text-light: #7f8c8d;
+    --border-light: #e1e8ed;
+}
+
+.note-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    overflow: hidden;
+    position: relative;
+    padding-bottom: 60px;
+}
+
+.note-header {
+    background: linear-gradient(45deg, #e59ce7 0%, #5ba58c 100%);
+    color: white;
+    padding: 30px;
+    text-align: center;
+}
+
+.note-header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.note-nav-tabs {
+    display: flex;
+    background: #11516e;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.note-nav-tab {
+    padding: 15px 25px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.3s;
+    flex: 1;
+}
+
+.note-nav-tab.active {
+    background: rgb(26, 241, 123);
+    color: #05274d;
+    border-bottom: 3px solid #007bff;
+}
+
+.note-nav-tab:hover {
+    background: #5f9fbd;
+}
+
+.note-tab-content {
+    display: none;
+    padding: 30px;
+}
+
+.note-tab-content.active {
+    display: block;
+}
+
+.upload-section {
+    text-align: center;
+    padding: 40px;
+    border: 3px dashed #007bff;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    background: #f8f9ff;
+}
+
+.upload-btn {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.upload-btn:hover {
+    transform: translateY(-2px);
+}
+
+.file-input {
+    display: none;
+}
+
+.sheet-selector {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.sheet-selector select {
+    padding: 10px 15px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 16px;
+    min-width: 200px;
+}
+
+.preview-table {
+    overflow-x: auto;
+    margin: 20px 0;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.note-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+.note-table th, .note-table td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+}
+
+.note-table th {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #495057;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.note-table tr:hover {
+    background: #f8f9ff;
+}
+
+.selectable-row {
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.selectable-row.selected {
+    background: #e3f2fd !important;
+    border-left: 4px solid #2196f3;
+}
+
+.note-controls {
+    display: flex;
+    gap: 15px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.search-box {
+    flex: 1;
+    min-width: 200px;
+    padding: 10px 15px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+.note-btn {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.note-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.note-btn-danger {
+    background: #dc3545;
+}
+
+.note-btn-primary {
+    background: #007bff;
+}
+
+.note-btn-warning {
+    background: #ffc107;
+    color: #212529;
+}
+
+.grade-input {
+    width: 60px;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.grade-section {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+.grade-controls {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.grade-type-selector {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.grade-type-selector label {
+    font-weight: 500;
+}
+
+.grade-type-selector select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.continuous-assessment {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin: 15px 0;
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.assessment-item {
+    text-align: center;
+}
+
+.assessment-item label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #495057;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 2em;
+    font-weight: bold;
+    color: #007bff;
+    margin: 10px 0;
+}
+
+.average-display {
+    font-size: 18px;
+    font-weight: bold;
+    color: #28a745;
+    margin-right: 10px;
+}
+
+.grade-comment {
+    font-style: italic;
+    color: #6c757d;
+    margin-right: 10px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 500px;
+}
+
+.close {
+    color: #aaa;
+    float: left;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: black;
+}
+
+.export-btn {
+    background: #17a2b8;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 10px 5px;
+}
+
+.grade-settings {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+.grade-settings-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+}
+
+.grade-settings-table th,
+.grade-settings-table td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.grade-settings-table th {
+    background: #e9ecef;
+    font-weight: 600;
+}
+
+.grade-settings-table input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.developer-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #f8f9fa;
+    padding: 15px;
+    text-align: center;
+    border-top: 1px solid #dee2e6;
+    font-size: 14px;
+    color: #6c757d;
+}
+
+.developer-footer a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.developer-footer a:hover {
+    text-decoration: underline;
+}
+
+.selection-info {
+    background: #e8f4fd;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    border-right: 4px solid #007bff;
+}
+
+.bulk-selection {
+    display: flex;
+    gap: 10px;
+    margin: 10px 0;
+    flex-wrap: wrap;
+}
+
+.bulk-btn {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.bulk-btn:hover {
+    background: #5a6268;
+}
+
+.column-info {
+    background: #fff3cd;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+    border-right: 4px solid #ffc107;
+}
+
+.student-rows-info {
+    background: #d4edda;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+    border-right: 4px solid #28a745;
+}

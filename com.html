@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> 🎯مؤشرات الكفاءة </title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(reg => console.log('Service Worker: Registered'))
+                    .catch(err => console.log(`Service Worker: Error: ${err}`));
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <nav class="tabs">
+            <a href="index.html" class="tab-link">الرئيسية</a>
+            <a href="com.html" class="tab-link active">مؤشرات الكفاءة</a>
+            <a href="monthly-plan.html" class="tab-link">التدرج السنوي </a>
+            <a href="teacher-tasks.html" class="tab-link">مهام الأستاذ</a>
+            <a href="note.html" class="tab-link">إدارة النقاط</a>
+        </nav>
+        <h1> 🎯 مؤشرات الكفاءة في العلوم الطبيعية</h1>
+        
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="ابحث في مؤشرات الكفاءة...">
+            <button id="search-button">بحث</button>
+            <div class="search-info" id="search-results-info"></div>
+        </div>
+        
+        <div class="controls">
+            <div class="select-group">
+                <label for="level-select">اختر المستوى:</label>
+                <select id="level-select">
+                    <option value="">-- اختر مستوى --</option>
+                </select>
+            </div>
+            <div class="select-group">
+                <label for="field-select">اختر الميدان:</label>
+                <select id="field-select" disabled>
+                    <option value="">-- اختر ميدان --</option>
+                </select>
+            </div>
+            <div class="select-group">
+                <label for="module-select">اختر المقطع:</label>
+                <select id="module-select" disabled>
+                    <option value="">-- اختر مقطع --</option>
+                </select>
+            </div>
+            <div class="select-group">
+                <label for="activity-select">اختر النشاط:</label>
+                <select id="activity-select" disabled>
+                    <option value="">-- اختر نشاط --</option>
+                </select>
+            </div>
+        </div>
+        
+        <div id="competencies-display">
+            <div class="display-header">
+                <h2>مؤشرات الكفاءة:</h2>
+                <button id="print-activity-btn" class="print-btn" disabled>طباعة النشاط</button>
+            </div>
+            <ul id="competencies-list"></ul>
+        </div>
+    </div>
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
