@@ -372,7 +372,7 @@
 }
 
 .developer-footer {
-    position: absolute;
+    position: static;
     bottom: 0;
     left: 0;
     right: 0;
@@ -436,4 +436,92 @@
     border-radius: 5px;
     margin: 10px 0;
     border-right: 4px solid #28a745;
+}
+/* note.css - إضافة تحسينات للهواتف */
+
+@media (max-width: 768px) {
+    .note-container {
+        margin: 10px auto;
+        padding: 0;
+    }
+    
+    .note-header {
+        padding: 20px 15px;
+    }
+    
+    .note-header h1 {
+        font-size: 1.8em;
+    }
+    
+    .note-nav-tabs {
+        flex-wrap: wrap;
+    }
+    
+    .note-nav-tab {
+        flex: 1 1 calc(50% - 2px);
+        padding: 12px 8px;
+        font-size: 14px;
+        min-width: 0;
+    }
+    
+    .note-tab-content {
+        padding: 20px 15px;
+    }
+    
+    .upload-section {
+        padding: 30px 20px;
+    }
+    
+    .note-controls {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .search-box {
+        min-width: auto;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    
+    .grade-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .continuous-assessment {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .note-nav-tab {
+        flex: 1 1 100%;
+        font-size: 13px;
+        padding: 10px 5px;
+    }
+    
+    .note-header h1 {
+        font-size: 1.5em;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .continuous-assessment {
+        grid-template-columns: 1fr;
+    }
+    
+    .grade-settings-table {
+        font-size: 12px;
+    }
+    
+    .grade-settings-table th,
+    .grade-settings-table td {
+        padding: 8px 5px;
+    }
 }
