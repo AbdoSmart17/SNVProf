@@ -10,6 +10,7 @@ const urlsToCache = [
     '/script.js',
     '/data.js',
     '/teacher-tasks-script.js',
+    '/tasks.css',
     '/monthly-plan-script.js',
     '/note.js', // تمت الإضافة
     '/note.css', // تمت الإضافة
