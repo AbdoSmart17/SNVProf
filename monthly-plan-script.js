@@ -9,22 +9,36 @@ function generateAcademicCalendar(startDateStr, endDateStr) {
     const calendar = [];
     let currentDate = new Date(startDate);
     
-    // ضبط تاريخ البداية ليبدأ من الأحد (أول يوم دراسة)
-    let startDayOfWeek = currentDate.getDay();
-    if (startDayOfWeek !== 0) { // إذا لم يكن الأحد
-        // الانتقال إلى الأحد القادم
-        currentDate.setDate(currentDate.getDate() + (7 - startDayOfWeek));
+    // 1. ضبط تاريخ البداية ليبدأ من الأحد (0) إذا لم يكن كذلك، مع احترام تاريخ النهاية
+    // إذا كان تاريخ البداية الحالي هو الجمعة (5) أو السبت (6)، ننتقل إلى الأحد التالي (اليوم 0)
+    let startDayOfWeek = currentDate.getDay(); // 0 = Sunday, 6 = Saturday
+    if (startDayOfWeek > 4) { // 5 (Friday) or 6 (Saturday)
+        // الانتقال إلى الأحد القادم (يوم الأحد التالي)
+        const daysUntilNextSunday = 7 - startDayOfWeek;
+        currentDate.setDate(currentDate.getDate() + daysUntilNextSunday);
+    } else if (startDayOfWeek !== 0) {
+        // إذا كان يوم عادي (إثنين-خميس) نجعله الأحد من هذا الأسبوع
+        currentDate.setDate(currentDate.getDate() - startDayOfWeek);
     }
+    // التأكد من أننا لم نتجاوز تاريخ النهاية بعد الضبط
+    if (currentDate > endDate) return [];
+
 
     let weekNumber = 1;
     let currentMonth = null;
     let monthWeeks = [];
 
+    // حلقة تكرار لإنشاء الأسابيع
     while (currentDate <= endDate) {
         let weekStart = new Date(currentDate);
         let weekEnd = new Date(currentDate);
         // نهاية الأسبوع الدراسي هي الخميس (بعد 4 أيام من الأحد)
         weekEnd.setDate(currentDate.getDate() + 4);
+
+        // التأكد من أن الأسبوع لا يتجاوز تاريخ نهاية الموسم الدراسي
+        if (weekStart > endDate) {
+            break;
+        }
 
         let weekType = 'دراسة';
         let periodName = '';
@@ -33,7 +47,23 @@ function generateAcademicCalendar(startDateStr, endDateStr) {
         const period = allPeriods.find(p => {
             const periodStart = new Date(p.start);
             const periodEnd = new Date(p.end);
-            return (weekStart <= periodEnd && weekEnd >= periodStart);
+            
+            // تحقق من التداخل بين الأسبوع الدراسي (الأحد-الخميس) والفترة المحددة
+            // يتم مقارنة الأحد (بداية الأسبوع الدراسي) والخميس (نهاية الأسبوع الدراسي)
+            // نستخدم فقط التاريخ (YYYY-MM-DD) للمقارنة لتجنب مشاكل الوقت
+            const weekStartDateStr = weekStart.toISOString().split('T')[0];
+            const weekEndDateStr = weekEnd.toISOString().split('T')[0];
+            const periodStartDateStr = periodStart.toISOString().split('T')[0];
+            const periodEndDateStr = periodEnd.toISOString().split('T')[0];
+            
+            // Convert to dates again for accurate comparison (or use numerical timestamps for robustness)
+            const wStart = new Date(weekStartDateStr);
+            const wEnd = new Date(weekEndDateStr);
+            const pStart = new Date(periodStartDateStr);
+            const pEnd = new Date(periodEndDateStr);
+
+            // Check if there is any overlap
+            return (wStart <= pEnd && wEnd >= pStart);
         });
 
         if (period) {
@@ -46,7 +76,7 @@ function generateAcademicCalendar(startDateStr, endDateStr) {
         // إذا تغير الشهر
         if (currentMonth !== monthName) {
             // حفظ الشهر السابق إذا كان يحتوي على أسابيع
-            if (monthWeeks.length > 0) {
+            if (currentMonth !== null && monthWeeks.length > 0) {
                 calendar.push({
                     name: currentMonth,
                     weeks: [...monthWeeks]
@@ -57,18 +87,21 @@ function generateAcademicCalendar(startDateStr, endDateStr) {
             monthWeeks = [];
         }
 
-        // إضافة الأسبوع للشهر الحالي
-        monthWeeks.push({
-            number: weekNumber,
-            type: weekType,
-            periodName: periodName,
-            startDate: new Date(weekStart),
-            endDate: new Date(weekEnd)
-        });
-
+        // إضافة الأسبوع للشهر الحالي، مع التحقق من أننا لم نتجاوز 4 أسابيع للشهر
+        if (monthWeeks.length < 4) {
+            // إضافة الأسبوع للشهر الحالي
+            monthWeeks.push({
+                number: weekNumber,
+                type: weekType,
+                periodName: periodName,
+                startDate: new Date(weekStart),
+                endDate: new Date(weekEnd)
+            });
+            weekNumber++;
+        }
+        
         // الانتقال للأسبوع التالي (نضيف 7 أيام للانتقال للأحد القادم)
         currentDate.setDate(currentDate.getDate() + 7);
-        weekNumber++;
     }
 
     // إضافة الشهر الأخير
@@ -154,7 +187,8 @@ function generateTable() {
     const startDate = document.getElementById('start-date').value;
     const endDate = document.getElementById('end-date').value;
     const selectedLevel = document.getElementById('level-select').value;
-    const sessionsPerWeek = parseInt(document.getElementById('sessions-per-week').value, 10);
+    // تم الإبقاء على sessionsPerWeek لأغراض الإحصاء في الملخص فقط
+    const sessionsPerWeek = parseInt(document.getElementById('sessions-per-week').value, 10); 
     const institutionName = document.getElementById('institution-name').value;
     const teacherName = document.getElementById('teacher-name').value;
     const teachingPattern = document.getElementById('teaching-pattern') ? document.getElementById('teaching-pattern').value : 'continuous';
@@ -172,6 +206,8 @@ function generateTable() {
         return;
     }
 
+    // العدد المطلوب للأنشطة في الأسبوع الواحد (ثابت: نشاطان)
+    const ACTIVITIES_PER_WEEK = 2; 
     let activityIndex = 0;
     const tableHeaders = ['الشهر', 'الأسبوع', 'الميدان', 'المقطع', 'الأنشطة'];
 
@@ -198,21 +234,22 @@ function generateTable() {
 
     // إحصاءات
     let totalStudyWeeks = 0;
-    let usedSessions = 0;
     
-    // حساب إجمالي أسابيع الدراسة في الأسابيع الأربعة الأولى من كل شهر
+    // حساب إجمالي أسابيع الدراسة
     calendarData.forEach(month => {
-        const weeksToShow = month.weeks.slice(0, 4); // نأخذ فقط أول 4 أسابيع
-        const studyWeeksInMonth = weeksToShow.filter(week => week.type === 'دراسة').length;
-        totalStudyWeeks += studyWeeksInMonth;
+        month.weeks.forEach(week => {
+            if (week.type === 'دراسة') {
+                totalStudyWeeks++;
+            }
+        });
     });
 
-    usedSessions = Math.min(totalStudyWeeks * sessionsPerWeek, allActivities.length);
-    const remainingActivities = allActivities.length - usedSessions;
+    const maxActivitiesToUse = totalStudyWeeks * ACTIVITIES_PER_WEEK;
+    const usedActivities = Math.min(maxActivitiesToUse, allActivities.length);
+    const remainingActivities = allActivities.length - usedActivities;
 
     calendarData.forEach(month => {
-        // نأخذ فقط أول 4 أسابيع من كل شهر (نتجاهل الأسبوع الخامس تماماً)
-        const weeksToShow = month.weeks.slice(0, 4);
+        const weeksToShow = month.weeks;
         
         weeksToShow.forEach((week, weekIndex) => {
             const isStudyWeek = week.type === 'دراسة';
@@ -221,7 +258,8 @@ function generateTable() {
             let currentModule = '';
             
             if (isStudyWeek) {
-                const sessionsAvailable = sessionsPerWeek;
+                // نخصص نشاطين في كل أسبوع دراسي
+                const sessionsAvailable = ACTIVITIES_PER_WEEK; 
                 
                 for (let i = 0; i < sessionsAvailable; i++) {
                     if (activityIndex < allActivities.length) {
@@ -233,8 +271,10 @@ function generateTable() {
                     }
                 }
             } else {
-                // نعرض فقط فترات العطل والامتحانات في الأسابيع الأربعة الأولى
-                activitiesInWeek.push(week.periodName);
+                // نعرض فترات العطل والامتحانات
+                activitiesInWeek.push(`(${week.type}) - ${week.periodName}`);
+                currentField = week.periodName; // وضع اسم الفترة في خانة الميدان للدلالة
+                currentModule = week.periodName; // وضع اسم الفترة في خانة المقطع للدلالة
             }
             
             tableHTML += `
@@ -255,11 +295,11 @@ function generateTable() {
                 </tbody>
             </table>
             <div class="table-summary">
-                <p>عدد الحصص الأسبوعية: ${sessionsPerWeek}</p>
+                <p>عدد الحصص الأسبوعية المُدخل: ${sessionsPerWeek} (تم برمجة نشاطين لكل أسبوع دراسي فعلي)</p>
                 <p>إجمالي الأنشطة المقررة: ${allActivities.length}</p>
-                <p>الحصص المستخدمة: ${usedSessions}</p>
+                <p>الأنشطة المستخدمة: ${usedActivities}</p>
                 <p>الأنشطة المتبقية: ${remainingActivities}</p>
-                <p class="note">ملاحظة: يتم عرض 4 أسابيع فقط لكل شهر، وقد تكون هناك أسابيع إضافية غير معروضة.</p>
+                <p class="note">ملاحظة: يتم عرض 4 أسابيع فقط لكل شهر، ولا تحتسب أيام الجمعة والسبت كأيام دراسية.</p>
             </div>
         </div>
     `;
