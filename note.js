@@ -23,12 +23,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // إعدادات التقديرات
     let gradeSettings = [
         { min: 18, max: 20, comment: 'نتائج ممتازة ومرضية واصل' },
-        { min: 16, max: 17.99, comment: 'نتائج جيدة ومنضجة واصل' },
+        { min: 16, max: 17.99, comment: 'نتائج جيدة و مرضية واصل' },
         { min: 14, max: 15.99, comment: 'واصل الاجتهاد و المثابرة' },
         { min: 12, max: 13.99, comment: 'نتائج مقبولة بإمكانك تحسينها' },
         { min: 10, max: 11.99, comment: 'بمقدورك تحقيق نتائج أفضل' },
         { min: 7, max: 9.99, comment: 'ينقصك الحرص و التركيز' },
-        { min: 0, max: 6.99, comment: 'احذر النهاون' }
+        { min: 0, max: 6.99, comment: 'احذر التهاون' }
     ];
 
     // تحميل الإعدادات من localStorage إذا كانت موجودة
@@ -78,12 +78,12 @@ document.addEventListener('DOMContentLoaded', function() {
         if (confirm('هل تريد استعادة الإعدادات الافتراضية؟ سيتم فقدان التغييرات الحالية.')) {
             gradeSettings = [
                 { min: 18, max: 20, comment: 'نتائج ممتازة ومرضية واصل' },
-                { min: 16, max: 17.99, comment: 'نتائج جيدة ومنضجة واصل' },
+                { min: 16, max: 17.99, comment: 'نتائج جيدة و مرضية واصل' },
                 { min: 14, max: 15.99, comment: 'واصل الاجتهاد و المثابرة' },
                 { min: 12, max: 13.99, comment: 'نتائج مقبولة بإمكانك تحسينها' },
                 { min: 10, max: 11.99, comment: 'بمقدورك تحقيق نتائج أفضل' },
                 { min: 7, max: 9.99, comment: 'ينقصك الحرص و التركيز' },
-                { min: 0, max: 6.99, comment: 'احذر النهاون' }
+                { min: 0, max: 6.99, comment: 'احذر التهاون' }
             ];
             localStorage.removeItem('gradeSettings');
             updateGradeSettingsTable();
