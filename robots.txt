@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
-
+Disallow: /_logs/
+Disallow: /_src/
 Sitemap: https://snv-prof.vercel.app/sitemap.xml
+
