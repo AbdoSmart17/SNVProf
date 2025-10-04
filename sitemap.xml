@@ -9,21 +9,22 @@
     <url>
         <loc>https://snv-prof.vercel.app/com.html</loc>
         <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
+        <priority>1.0</priority>
     </url>
     <url>
         <loc>https://snv-prof.vercel.app/monthly-plan.html</loc>
         <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
+        <priority>1.0</priority>
     </url>
     <url>
         <loc>https://snv-prof.vercel.app/teacher-tasks.html</loc>
         <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
+        <priority>1.0</priority>
     </url>
     <url>
         <loc>https://snv-prof.vercel.app/note.html</loc>
         <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
+        <priority>1.0</priority>
     </url>
 </urlset>
+
